@@ -67,5 +67,17 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // 'gatsby-plugin-offline',
+    {
+      resolve: `gatsby-source-notion-database`,
+      options: {
+        sourceConfig: [
+          {
+            name: 'posts',
+            table: 'https://www.notion.so/sanitawaki/bf1c61d5be28428c852a6ab582a14c50?v=05a89270059d4ba2a87f24e3728ca3ee',
+            cacheType: 'html'
+          }
+        ]
+      }
+    }
   ],
 }
