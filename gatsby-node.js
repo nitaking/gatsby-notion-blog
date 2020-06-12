@@ -59,7 +59,35 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  return Promise.all([blogPost]);
+  const newsPost = await graphql(`
+  query {
+      allPosts(filter: {publish: {eq: true}, content_type: {eq: "newsletter"}}) {
+          nodes {
+            slug
+            url
+          }
+        }
+      }
+    `).then(result => {
+    if (result.errors) {
+      Promise.reject(result.errors);
+    }
+
+    result.data.allPosts.nodes.forEach(({ slug, url }) => {
+      createPage({
+        path: `subscribe/posts/${url}`,
+        // path: node.frontmatter.path,
+        component: path.resolve(`./src/templates/blogPost.js`),
+        context: {
+          // Data passed to context is available
+          // in page queries as GraphQL variables.
+          slug: slug,
+        },
+      });
+    });
+  });
+
+  return Promise.all([blogPost, newsPost]);
 
 
   // const { createPage } = actions
