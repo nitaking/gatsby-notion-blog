@@ -56,7 +56,7 @@ const IndexPage = ({ data }) => {
                     Tags: {node.tags && node.tags.join(", ")}
                   </div>
                   <ArticleDate>{node.publish_date}</ArticleDate>
-                  <ReadingTime> - {node.read_time} MIN READ</ReadingTime>
+                  <ReadingTime> - {node.read_time || '?'} MIN READ</ReadingTime>
                 </div>
                 <p
                   style={{ color: "black" }}
