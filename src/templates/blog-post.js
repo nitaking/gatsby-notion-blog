@@ -38,15 +38,3 @@ export const query = graphql`
     }
   }
 `
-// export const query = graphql`
-//   query($slug: String!) {
-//     posts(slug: { eq: $slug }) {
-//       html
-//       tags
-//       publish_date
-//       url
-//       desc
-//       color
-//     }
-//   }
-// `
