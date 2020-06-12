@@ -1,4 +1,5 @@
 import React from "react"
+// eslint-disable-next-line no-unused-vars
 import { Link, graphql } from "gatsby"
 import { css } from "@emotion/core"
 import styled from "@emotion/styled"
@@ -34,39 +35,37 @@ const ReadingTime = styled.h5`
 `
 
 const IndexPage = ({ data }) => {
-  console.debug('>>>')
-  console.debug(data)
-  console.debug('>>>')
-
   return (
     <Layout>
       <SEO title="Blog" />
       <Content>
         <h1>Blog</h1>
-        {data.allMarkdownRemark.edges
-          .filter(({ node }) => {
-            const rawDate = node.frontmatter.rawDate
-            const date = new Date(rawDate)
-            return date < new Date()
-          })
-          .map(({ node }) => (
-            <div key={node.id}>
+        {data.allPosts.nodes.map((node) => {
+          return (
+            <div key={node}>
               <Link
-                to={node.frontmatter.path}
+                to={`posts/${node.url}/`}
                 css={css`
                   text-decoration: none;
                   color: inherit;
                 `}
               >
-                <MarkerHeader>{node.frontmatter.title} </MarkerHeader>
+                <MarkerHeader>{node.Page}</MarkerHeader>
                 <div>
-                  <ArticleDate>{node.frontmatter.date}</ArticleDate>
-                  <ReadingTime> - {node.fields.readingTime.text}</ReadingTime>
+                  <div style={{ color: "grey" }}>
+                    Tags: {node.tags && node.tags.join(", ")}
+                  </div>
+                  <ArticleDate>{node.publish_date}</ArticleDate>
+                  <ReadingTime> - {node.read_time} MIN READ</ReadingTime>
                 </div>
-                <p>{node.excerpt}</p>
+                <p
+                  style={{ color: "black" }}
+                  dangerouslySetInnerHTML={{ __html: node.desc }}
+                ></p>
               </Link>
             </div>
-          ))}
+          )
+        })}
       </Content>
     </Layout>
   )
@@ -81,28 +80,21 @@ export const query = graphql`
         title
       }
     }
-    allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { draft: { eq: false } } }
+    allPosts(
+      filter: { publish: { eq: true }, content_type: { eq: "article" } }
+      sort: { fields: [publish_date], order: DESC }
     ) {
-      totalCount
-      edges {
-        node {
-          id
-          frontmatter {
-            title
-            date(formatString: "DD MMMM, YYYY")
-            rawDate: date
-            path
-          }
-          fields {
-            slug
-            readingTime {
-              text
-            }
-          }
-          excerpt
-        }
+      nodes {
+        Page
+        # tags
+        # desc
+        content_type
+        # status
+        url
+        read_time
+        # cover_image
+        slug
+        publish_date(fromNow: false)
       }
     }
   }

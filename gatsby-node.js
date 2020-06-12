@@ -33,95 +33,63 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
   const blogPost = await graphql(`
-  query {
-      allPosts(filter: {publish: {eq: true}, content_type: {eq: "article"}}) {
-          nodes {
-            slug
-            url
-          }
+    query {
+      allPosts(
+        filter: { publish: { eq: true }, content_type: { eq: "article" } }
+      ) {
+        nodes {
+          slug
+          url
         }
       }
-    `).then(result => {
+    }
+  `).then((result) => {
     if (result.errors) {
-      Promise.reject(result.errors);
+      Promise.reject(result.errors)
     }
 
     result.data.allPosts.nodes.forEach(({ slug, url }) => {
       createPage({
         path: `blog/posts/${url}`,
-        component: path.resolve(`./src/templates/blogPost.js`),
+        component: path.resolve(`./src/templates/blog-post.js`),
         context: {
           // Data passed to context is available
           // in page queries as GraphQL variables.
           slug: slug,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   const newsPost = await graphql(`
-  query {
-      allPosts(filter: {publish: {eq: true}, content_type: {eq: "newsletter"}}) {
-          nodes {
-            slug
-            url
-          }
+    query {
+      allPosts(
+        filter: { publish: { eq: true }, content_type: { eq: "newsletter" } }
+      ) {
+        nodes {
+          slug
+          url
         }
       }
-    `).then(result => {
+    }
+  `).then((result) => {
     if (result.errors) {
-      Promise.reject(result.errors);
+      Promise.reject(result.errors)
     }
 
     result.data.allPosts.nodes.forEach(({ slug, url }) => {
       createPage({
         path: `subscribe/posts/${url}`,
         // path: node.frontmatter.path,
-        component: path.resolve(`./src/templates/blogPost.js`),
+        component: path.resolve(`./src/templates/blog-post.js`),
         context: {
           // Data passed to context is available
           // in page queries as GraphQL variables.
           slug: slug,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
-  return Promise.all([blogPost, newsPost]);
-
-
-  // const { createPage } = actions
-  // const blogPostTemplate = path.resolve(`src/templates/blog-post.js`)
-  // return graphql(`
-  //   {
-  //     allMarkdownRemark {
-  //       edges {
-  //         node {
-  //           frontmatter {
-  //             path
-  //             draft
-  //             date
-  //           }
-  //           fields {
-  //             slug
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // `).then(result => {
-  //   if (result.errors) {
-  //     return Promise.reject(result.errors)
-  //   }
-  //   result.data.allMarkdownRemark.edges
-  //     .filter(({ node }) => !node.frontmatter.draft)
-  //     .forEach(({ node }) => {
-  //       createPage({
-  //         path: node.frontmatter.path,
-  //         component: blogPostTemplate,
-  //         slug: node.fields.slug,
-  //         context: {},
-  //       })
-  //     })
-  // })
+  return Promise.all([blogPost, newsPost])
 }
