@@ -34,6 +34,11 @@ const ReadingTime = styled.h5`
   color: #606060;
 `
 
+const Tags = styled.h6`
+  display: inline;
+  color: gray;
+`
+
 const IndexPage = ({ data }) => {
   return (
     <Layout>
@@ -52,12 +57,10 @@ const IndexPage = ({ data }) => {
               >
                 <MarkerHeader>{node.Page}</MarkerHeader>
                 <div>
-                  <div style={{ color: "grey" }}>
-                    Tags: {node.tags && node.tags.join(", ")}
-                  </div>
                   <ArticleDate>{node.publish_date}</ArticleDate>
                   <ReadingTime> - {node.read_time || '?'} MIN READ</ReadingTime>
                 </div>
+                <Tags>Tags: {node.tags && node.tags.join(", ")}</Tags>
                 <p
                   style={{ color: "black" }}
                   dangerouslySetInnerHTML={{ __html: node.desc }}
@@ -86,8 +89,7 @@ export const query = graphql`
     ) {
       nodes {
         Page
-        # tags
-        # desc
+        tags
         content_type
         # status
         url
