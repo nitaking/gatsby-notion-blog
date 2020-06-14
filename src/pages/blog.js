@@ -84,12 +84,13 @@ export const query = graphql`
       }
     }
     allPosts(
-      filter: { publish: { eq: true }, content_type: { eq: "article" } }
+      filter: { publish: { eq: true } }
       sort: { fields: [publish_date], order: DESC }
     ) {
       nodes {
         Page
         tags
+        # desc
         content_type
         # status
         url

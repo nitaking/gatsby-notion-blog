@@ -35,7 +35,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const blogPost = await graphql(`
     query {
       allPosts(
-        filter: { publish: { eq: true }, content_type: { eq: "article" } }
+        filter: { publish: { eq: true } }
       ) {
         nodes {
           slug
