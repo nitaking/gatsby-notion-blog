@@ -633,5 +633,5 @@ a::selection {
 }
 
 [data-block-id] {
-  max-width: 100%!important;
+  max-width: 100% !important;
 }
