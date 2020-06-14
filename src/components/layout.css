@@ -631,3 +631,7 @@ a::selection {
     font-size: 100%;
   }
 }
+
+[data-block-id] {
+  max-width: 100%!important;
+}
