@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `nitaking`,
     subtitle: `software developer`,
-    description: `The output of daily accumulation.`,
+    description: `blog.nitaking.dev。ライフハックやガジェットなど興味があることについて更新するブログ。`,
     author: `@nitaking`,
   },
   plugins: [
