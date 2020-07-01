@@ -11,7 +11,6 @@ module.exports = {
       options: {
         trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
         head: true,
-        cookieDomain: "blog.nitaking.dev",
       },
     },
     `gatsby-plugin-react-helmet`,
