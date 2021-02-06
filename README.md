@@ -2,5 +2,5 @@
 
 https://blog.nitaking.dev/
 
-# Index
+# Guide
 - [Deploy](docs/Deploy.md)
